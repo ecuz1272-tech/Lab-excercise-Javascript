@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVault | Modern Enterprise Finance Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --bg-body: #f4f6f9;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --bg-input: #f1f5f9;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: rgba(79, 70, 229, 0.1);
+            
+            --income: #10b981;
+            --income-hover: #059669;
+            --income-light: rgba(16, 185, 129, 0.12);
+
+            --expense: #f43f5e;
+            --expense-hover: #e11d48;
+            --expense-light: rgba(244, 63, 94, 0.12);
+
+            --warning: #f59e0b;
+            --warning-light: rgba(245, 158, 11, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0b0f19;
+            --bg-card: #151c2c;
+            --bg-card-hover: #1e293b;
+            --bg-input: #1e293b;
+            --bg-glass: rgba(21, 28, 44, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.85rem 1.5rem;
+            transition: var(--transition);
+        }
+
+        .navbar-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+            color: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .brand-subtitle {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .user-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-icon {
+            padding: 0.55rem;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--bg-card-hover);
+            border-color: var(--border-hover);
+        }
+
+        .btn-danger {
+            background-color: var(--expense);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: var(--expense-hover);
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            color: var(--expense);
+            border-color: var(--expense-light);
+        }
+        .btn-outline-danger:hover {
+            background: var(--expense-light);
+        }
+
+        .main-container {
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .card-hero {
+            background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .card-hero .metric-label {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .metric-value {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-family: var(--font-mono);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-footer {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 0.5rem;
+        }
+
+        .card-hero .metric-footer {
+            border-top-color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-input);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            flex-grow: 1;
+            min-height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .input, .select {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-input);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input:focus, .select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn-toggle-group {
+            display: flex;
+            background: var(--bg-input);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            gap: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-toggle {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-toggle.active-expense {
+            background: var(--expense);
+            color: white;
+        }
+
+        .btn-toggle.active-income {
+            background: var(--income);
+            color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        /* PRESETS */
+        .presets-wrapper {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .preset-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .preset-btn {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-full);
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .transaction-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        .transaction-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .tx-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .tx-item:hover {
+            border-color: var(--border-hover);
+            transform: translateX(3px);
+        }
+
+        .tx-item.income {
+            border-left: 4px solid var(--income);
+        }
+
+        .tx-item.expense {
+            border-left: 4px solid var(--expense);
+        }
+
+        .tx-info {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .tx-category-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: var(--bg-input);
+        }
+
+        .tx-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tx-desc {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .tx-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.725rem;
+            color: var(--text-muted);
+        }
+
+        .category-badge {
+            font-size: 0.68rem;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .tx-amount {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .tx-amount.income {
+            color: var(--income);
+        }
+
+        .tx-amount.expense {
+            color: var(--expense);
+        }
+
+        .tx-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-left: 0.75rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.95);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.6rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast-success { border-left: 4px solid var(--income); }
+        .toast-danger { border-left: 4px solid var(--expense); }
+        .toast-info { border-left: 4px solid var(--primary); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="brand">
+                <div class="brand-icon">⚡</div>
+                <div>
+                    <span class="brand-title">MyVault</span>
+                    <span class="brand-subtitle">Financial Workspace</span>
+                </div>
+            </a>
+
+            <div class="nav-controls">
+                <div id="userHeaderPill" class="user-pill">
+                </div>
+
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="btn btn-secondary btn-icon" title="Toggle Dark/Light Mode">
+                    🌙
+                </button>
+
+                <div style="position: relative;">
+                    <button onclick="toggleExportMenu()" class="btn btn-secondary btn-sm">
+                        📥 Export ▾
+                    </button>
+                    <div id="exportMenu" style="display: none; position: absolute; right: 0; top: 110%; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.5rem; box-shadow: var(--shadow-md); z-index: 50; width: 140px;">
+                        <button onclick="exportCSV()" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: flex-start; margin-bottom: 4px;">CSV File</button>
+                        <button onclick="exportJSON()" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: flex-start;">JSON Backup</button>
+                    </div>
+                </div>
+
+                <button id="authBtn" onclick="openAuthModal()" class="btn btn-primary btn-sm">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+
+        <section class="metrics-grid">
+            <div class="card card-hero">
+                <div class="metric-header">
+                    <span class="metric-label">Net Balance</span>
+                    <span>🏦</span>
+                </div>
+                <div id="metricBalance" class="metric-value">₱0.00</div>
+                <div class="metric-footer">
+                    <span>Liquidity Index</span>
+                    <span id="metricStatus" class="user-badge" style="background: rgba(255,255,255,0.2); color: white;">Optimal</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="metric-header">
+                    <span class="metric-label">Monthly Income</span>
+                    <span style="color: var(--income);">📈</span>
+                </div>
+                <div id="metricIncome" class="metric-value" style="color: var(--income);">₱0.00</div>
+                <div class="metric-footer">
+                    <span>Total Deposits</span>
+                    <span id="metricIncomeCount" style="font-weight: 700;">0 txns</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="metric-header">
+                    <span class="metric-label">Monthly Expenses</span>
+                    <span style="color: var(--expense);">📉</span>
+                </div>
+                <div id="metricExpense" class="metric-value" style="color: var(--expense);">₱0.00</div>
+                <div class="metric-footer">
+                    <span>Total Outflows</span>
+                    <span id="metricExpenseCount" style="font-weight: 700;">0 txns</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="metric-header">
+                    <span class="metric-label">Savings Rate</span>
+                    <span style="color: var(--primary);">🐖</span>
+                </div>
+                <div id="metricSavings" class="metric-value" style="color: var(--primary);">0%</div>
+                <div class="progress-bar-bg">
+                    <div id="savingsProgress" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-2col">
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <span class="chart-title">🍕 Expenses by Category</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="donutChartCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <span class="chart-title">📊 Cashflow Breakdown</span>
+                    <span class="user-badge">Income vs Expense</span>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="barChartCanvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-2col">
+            <div class="card">
+                <div class="chart-header">
+                    <span id="formTitle" class="chart-title">➕ Add Transaction</span>
+                </div>
+
+                <form id="txForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label">Transaction Type</label>
+                        <div class="btn-toggle-group">
+                            <button type="button" id="btnExpense" onclick="setTxType('expense')" class="btn-toggle active-expense">Expense</button>
+                            <button type="button" id="btnIncome" onclick="setTxType('income')" class="btn-toggle">Income</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDesc" class="form-label">Description</label>
+                        <input type="text" id="inputDesc" class="input" placeholder="e.g. Salary, Jollibee, Grocery, Electric Bill" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inputAmount" class="form-label">Amount (₱)</label>
+                            <input type="number" id="inputAmount" class="input" step="0.01" min="0.01" placeholder="0.00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectCategory" class="form-label">Category</label>
+                            <select id="selectCategory" class="select">
+                                <option value="General">General</option>
+                                <option value="Food & Dining">Food & Dining</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Salary & Income">Salary & Income</option>
+                                <option value="Utilities & Bills">Utilities & Bills</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Investments">Investments</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDate" class="form-label">Date</label>
+                        <input type="date" id="inputDate" class="input" required>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button type="submit" id="submitFormBtn" class="btn btn-primary" style="flex: 1;">
+                            Save Record
+                        </button>
+                        <button type="button" id="cancelEditBtn" onclick="resetForm()" class="btn btn-secondary" style="display: none;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+
+                <div class="presets-wrapper">
+                    <span class="form-label">Quick Sample Presets</span>
+                    <div class="preset-pills">
+                        <button onclick="applyPreset('Monthly Salary', 35000, 'income', 'Salary & Income')" class="preset-btn">+₱35k Salary</button>
+                        <button onclick="applyPreset('Starbucks Coffee', 195, 'expense', 'Food & Dining')" class="preset-btn">-₱195 Coffee</button>
+                        <button onclick="applyPreset('SM Supermarket', 3200, 'expense', 'Groceries')" class="preset-btn">-₱3.2k Grocery</button>
+                        <button onclick="applyPreset('Electric Bill', 2800, 'expense', 'Utilities & Bills')" class="preset-btn">-₱2.8k Electric</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <input type="text" id="searchInput" oninput="renderApp()" class="input" placeholder="Search entries..." style="width: 180px;">
+                        <select id="filterType" onchange="renderApp()" class="select" style="width: 110px;">
+                            <option value="all">All Types</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                        <select id="filterCategory" onchange="renderApp()" class="select" style="width: 130px;">
+                            <option value="all">All Categories</option>
+                            <option value="Food & Dining">Food & Dining</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Salary & Income">Salary & Income</option>
+                            <option value="Utilities & Bills">Utilities & Bills</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Investments">Investments</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="sortBy" onchange="renderApp()" class="select" style="width: 130px;">
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                            <option value="amount-desc">Highest Amount</option>
+                            <option value="amount-asc">Lowest Amount</option>
+                        </select>
+                        <button onclick="confirmClearAll()" class="btn btn-outline-danger btn-sm" title="Clear all records">🗑️</button>
+                    </div>
+                </div>
+
+                <div id="txList" class="transaction-list">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">🔐 ApexVault Access</span>
+                <button onclick="closeAuthModal()" class="btn btn-secondary btn-sm" style="padding: 2px 8px;">✕</button>
+            </div>
+
+            <div class="tabs">
+                <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="tab-btn active">Sign In</button>
+                <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="tab-btn">Create Account</button>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="loginUser" class="input" required placeholder="alex">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="loginPass" class="input" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Sign In</button>
+            </form>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="regName" class="input" required placeholder="Alex Mercer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="regUser" class="input" required placeholder="alex">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="regPass" class="input" required placeholder="Min 4 characters">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Register Account</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Or explore locally:</span>
+                <button onclick="continueAsGuest()" class="btn btn-secondary btn-sm" style="width: 100%;">Continue as Guest</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script>
+        const APP_STORAGE_KEY_USERS = 'apex_vault_registered_users';
+        const APP_STORAGE_KEY_SESSION = 'apex_vault_active_session';
+        const APP_STORAGE_KEY_GUEST_TX = 'apex_vault_guest_transactions';
+
+        let activeUser = null; 
+        let transactions = [];
+        let editingTxId = null;
+        let currentTxType = 'expense';
+
+        const categoryKeywords = {
+            'Salary & Income': ['salary', 'paycheck', 'bonus', 'freelance', 'wage', 'dividend', 'deposit'],
+            'Food & Dining': ['food', 'jollibee', 'mcdo', 'starbucks', 'coffee', 'restaurant', 'lunch', 'dinner', 'snack', 'grabfood'],
+            'Groceries': ['grocery', 'groceries', 'supermarket', 'market', 'sm', 'puregold', 'waltermart', 'meat', 'vegetable'],
+            'Utilities & Bills': ['bill', 'electric', 'water', 'internet', 'pldt', 'globe', 'meralco', 'rent', 'netflix', 'spotify'],
+            'Shopping': ['shopping', 'lazada', 'shopee', 'clothes', 'shoes', 'gadget', 'amazon'],
+            'Transport': ['transport', 'gas', 'fuel', 'grab', 'taxi', 'jeep', 'bus', 'fare', 'toll', 'shell', 'petron'],
+            'Entertainment': ['movie', 'cinema', 'game', 'steam', 'concert', 'resort'],
+            'Healthcare': ['doctor', 'hospital', 'medicine', 'pharmacy', 'clinic', 'dentist'],
+            'Investments': ['crypto', 'stock', 'invest', 'mutual fund', 'real estate']
+        };
+
+        const categoryIcons = {
+            'General': '📌',
+            'Salary & Income': '💰',
+            'Food & Dining': '🍔',
+            'Groceries': '🛒',
+            'Utilities & Bills': '⚡',
+            'Shopping': '🛍️',
+            'Transport': '🚗',
+            'Entertainment': '🎬',
+            'Healthcare': '🩺',
+            'Investments': '📈'
+        };
+
+        function initAppSession() {
+            const sessionUser = localStorage.getItem(APP_STORAGE_KEY_SESSION);
+            if (sessionUser) {
+                const users = getUsersFromStorage();
+                if (users[sessionUser]) {
+                    activeUser = users[sessionUser];
+                }
+            }
+            loadUserTransactions();
+            
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+            
+            renderApp();
+        }
+
+        function getUsersFromStorage() {
+            try {
+                return JSON.parse(localStorage.getItem(APP_STORAGE_KEY_USERS)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveUsersToStorage(users) {
+            localStorage.setItem(APP_STORAGE_KEY_USERS, JSON.stringify(users));
+        }
+
+        function loadUserTransactions() {
+            if (activeUser) {
+                transactions = activeUser.transactions || [];
+            } else {
+                const savedGuest = localStorage.getItem(APP_STORAGE_KEY_GUEST_TX);
+                if (savedGuest) {
+                    try {
+                        transactions = JSON.parse(savedGuest);
+                    } catch (e) {
+                        transactions = getSeedData();
+                    }
+                } else {
+                    transactions = getSeedData();
+                }
+            }
+        }
+
+        function saveUserTransactions() {
+            if (activeUser) {
+                const users = getUsersFromStorage();
+                if (users[activeUser.username]) {
+                    users[activeUser.username].transactions = transactions;
+                    saveUsersToStorage(users);
+                    activeUser.transactions = transactions;
+                }
+            } else {
+                localStorage.setItem(APP_STORAGE_KEY_GUEST_TX, JSON.stringify(transactions));
+            }
+            renderApp();
+        }
+
+        function getSeedData() {
+            return [
+                { id: 'seed-1', description: 'Monthly Tech Salary', amount: 45000, type: 'income', category: 'Salary & Income', date: new Date().toISOString().split('T')[0] },
+                { id: 'seed-2', description: 'Grocery Supermarket', amount: 3450, type: 'expense', category: 'Groceries', date: new Date(Date.now() - 86400000).toISOString().split('T')[0] },
+                { id: 'seed-3', description: 'Starbucks Coffee', amount: 220, type: 'expense', category: 'Food & Dining', date: new Date(Date.now() - 172800000).toISOString().split('T')[0] }
+            ];
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUser').value.trim().toLowerCase();
+            const password = document.getElementById('loginPass').value;
+
+            const users = getUsersFromStorage();
+            if (users[username] && users[username].password === password) {
+                activeUser = users[username];
+                localStorage.setItem(APP_STORAGE_KEY_SESSION, username);
+                loadUserTransactions();
+                closeAuthModal();
+                showToast(`Welcome back, ${activeUser.name}!`, 'success');
+            } else {
+                showToast('Invalid username or password.', 'danger');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const username = document.getElementById('regUser').value.trim().toLowerCase();
+            const password = document.getElementById('regPass').value;
+
+            if (password.length < 4) {
+                showToast('Password must be at least 4 characters long.', 'danger');
+                return;
+            }
+
+            const users = getUsersFromStorage();
+            if (users[username]) {
+                showToast('Username already taken.', 'danger');
+                return;
+            }
+
+            const newUser = {
+                name,
+                username,
+                password,
+                transactions: getSeedData()
+            };
+
+            users[username] = newUser;
+            saveUsersToStorage(users);
+
+            activeUser = newUser;
+            localStorage.setItem(APP_STORAGE_KEY_SESSION, username);
+            loadUserTransactions();
+            closeAuthModal();
+            showToast(`Account created! Welcome, ${name}.`, 'success');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem(APP_STORAGE_KEY_SESSION);
+            activeUser = null;
+            loadUserTransactions();
+            showToast('Signed out. Switched to Guest Mode.', 'info');
+        }
+
+        function continueAsGuest() {
+            localStorage.removeItem(APP_STORAGE_KEY_SESSION);
+            activeUser = null;
+            loadUserTransactions();
+            closeAuthModal();
+            showToast('Operating in Guest Mode', 'info');
+        }
+
+        function setTxType(type) {
+            currentTxType = type;
+            const btnExpense = document.getElementById('btnExpense');
+            const btnIncome = document.getElementById('btnIncome');
+
+            if (type === 'expense') {
+                btnExpense.className = 'btn-toggle active-expense';
+                btnIncome.className = 'btn-toggle';
+            } else {
+                btnIncome.className = 'btn-toggle active-income';
+                btnExpense.className = 'btn-toggle';
+            }
+        }
+
+        document.getElementById('inputDesc').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            if (!val) return;
+
+            for (const [cat, keywords] of Object.entries(categoryKeywords)) {
+                if (keywords.some(kw => val.includes(kw))) {
+                    document.getElementById('selectCategory').value = cat;
+                    if (cat === 'Salary & Income' && currentTxType !== 'income') {
+                        setTxType('income');
+                    }
+                    break;
+                }
+            }
+        });
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const desc = document.getElementById('inputDesc').value.trim();
+            const amount = parseFloat(document.getElementById('inputAmount').value);
+            const category = document.getElementById('selectCategory').value;
+            const date = document.getElementById('inputDate').value;
+
+            if (!desc || isNaN(amount) || amount <= 0 || !date) {
+                showToast('Please fill all fields accurately.', 'danger');
+                return;
+            }
+
+            if (editingTxId) {
+                const index = transactions.findIndex(t => t.id === editingTxId);
+                if (index !== -1) {
+                    transactions[index] = { id: editingTxId, description: desc, amount, type: currentTxType, category, date };
+                    showToast('Transaction updated', 'success');
+                }
+            } else {
+                const newTx = {
+                    id: 'tx-' + Date.now(),
+                    description: desc,
+                    amount,
+                    type: currentTxType,
+                    category,
+                    date
+                };
+                transactions.unshift(newTx);
+                showToast(`Saved ${currentTxType}: ₱${amount.toFixed(2)}`, 'success');
+            }
+
+            resetForm();
+            saveUserTransactions();
+        }
+
+        function editTransaction(id) {
+            const tx = transactions.find(t => t.id === id);
+            if (!tx) return;
+
+            editingTxId = tx.id;
+            document.getElementById('formTitle').textContent = '✏️ Edit Transaction';
+            document.getElementById('inputDesc').value = tx.description;
+            document.getElementById('inputAmount').value = tx.amount;
+            document.getElementById('selectCategory').value = tx.category || 'General';
+            document.getElementById('inputDate').value = tx.date;
+            setTxType(tx.type);
+
+            document.getElementById('cancelEditBtn').style.display = 'inline-block';
+            document.getElementById('submitFormBtn').textContent = 'Update Record';
+        }
+
+        function deleteTransaction(id) {
+            transactions = transactions.filter(t => t.id !== id);
+            saveUserTransactions();
+            showToast('Entry removed', 'info');
+        }
+
+        function confirmClearAll() {
+            if (transactions.length === 0) return;
+            if (confirm('Are you sure you want to clear all transactions in this ledger?')) {
+                transactions = [];
+                saveUserTransactions();
+                showToast('Ledger cleared', 'info');
+            }
+        }
+
+        function resetForm() {
+            editingTxId = null;
+            document.getElementById('formTitle').textContent = '➕ Add Transaction';
+            document.getElementById('inputDesc').value = '';
+            document.getElementById('inputAmount').value = '';
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            document.getElementById('submitFormBtn').textContent = 'Save Record';
+        }
+
+        function applyPreset(desc, amount, type, category) {
+            document.getElementById('inputDesc').value = desc;
+            document.getElementById('inputAmount').value = amount;
+            document.getElementById('selectCategory').value = category;
+            setTxType(type);
+        }
+
+        function renderDonutChart(expenseTotals) {
+            const canvas = document.getElementById('donutChartCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+            ctx.clearRect(0, 0, width, height);
+
+            const totalSum = Object.values(expenseTotals).reduce((a, b) => a + b, 0);
+
+            if (totalSum === 0) {
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px "Plus Jakarta Sans"';
+                ctx.textAlign = 'center';
+                ctx.fillText('No expense data available', width / 2, height / 2);
+                return;
+            }
+
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = Math.min(centerX, centerY) - 20;
+            const innerRadius = radius * 0.65;
+
+            const colors = ['#f43f5e', '#4f46e5', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899', '#64748b'];
+            let startAngle = -Math.PI / 2;
+            let colorIdx = 0;
+
+            for (const [category, amount] of Object.entries(expenseTotals)) {
+                const sliceAngle = (amount / totalSum) * 2 * Math.PI;
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+
+                ctx.fillStyle = colors[colorIdx % colors.length];
+                ctx.fill();
+
+                startAngle += sliceAngle;
+                colorIdx++;
+            }
+
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim();
+            ctx.font = '700 14px "JetBrains Mono"';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`₱${totalSum.toLocaleString('en-PH', { maximumFractionDigits: 0 })}`, centerX, centerY);
+        }
+
+        function renderBarChart(income, expense) {
+            const canvas = document.getElementById('barChartCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = rect.width;
+            const height = rect.height;
+            ctx.clearRect(0, 0, width, height);
+
+            const maxVal = Math.max(income, expense, 1000);
+            const padding = 40;
+            const chartHeight = height - padding * 2;
+
+            const incomeBarHeight = (income / maxVal) * chartHeight;
+            const expenseBarHeight = (expense / maxVal) * chartHeight;
+
+            const barWidth = 40;
+            const centerX = width / 2;
+
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath();
+            ctx.roundRect(centerX - barWidth - 15, height - padding - incomeBarHeight, barWidth, incomeBarHeight, [6, 6, 0, 0]);
+            ctx.fill();
+
+            ctx.fillStyle = '#f43f5e';
+            ctx.beginPath();
+            ctx.roundRect(centerX + 15, height - padding - expenseBarHeight, barWidth, expenseBarHeight, [6, 6, 0, 0]);
+            ctx.fill();
+
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding, height - padding);
+            ctx.lineTo(width - padding, height - padding);
+            ctx.stroke();
+
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim();
+            ctx.font = '600 11px "Plus Jakarta Sans"';
+            ctx.textAlign = 'center';
+            ctx.fillText('Income', centerX - barWidth / 2 - 15, height - padding + 20);
+            ctx.fillText('Expense', centerX + barWidth / 2 + 15, height - padding + 20);
+        }
+
+        function renderApp() {
+            // Render Header Pill
+            const pill = document.getElementById('userHeaderPill');
+            const authBtn = document.getElementById('authBtn');
+
+            if (activeUser) {
+                const initial = activeUser.name.charAt(0).toUpperCase();
+                pill.innerHTML = `
+                    <div class="avatar">${initial}</div>
+                    <span>${escapeHTML(activeUser.name)}</span>
+                    <span class="user-badge">User</span>
+                `;
+                authBtn.textContent = 'Sign Out';
+                authBtn.className = 'btn btn-secondary btn-sm';
+                authBtn.onclick = handleLogout;
+            } else {
+                pill.innerHTML = `
+                    <div class="avatar" style="background: var(--text-muted);">G</div>
+                    <span>Guest User</span>
+                    <span class="user-badge" style="background: var(--bg-input); color: var(--text-muted);">Local</span>
+                `;
+                authBtn.textContent = 'Sign In';
+                authBtn.className = 'btn btn-primary btn-sm';
+                authBtn.onclick = openAuthModal;
+            }
+
+            const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+            const expense = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+            const balance = income - expense;
+            const savingsRate = income > 0 ? Math.max(0, Math.round(((income - expense) / income) * 100)) : 0;
+
+            document.getElementById('metricBalance').textContent = formatCurrency(balance);
+            document.getElementById('metricIncome').textContent = formatCurrency(income);
+            document.getElementById('metricExpense').textContent = formatCurrency(expense);
+            document.getElementById('metricSavings').textContent = `${savingsRate}%`;
+            document.getElementById('savingsProgress').style.width = `${Math.min(100, savingsRate)}%`;
+
+            const incCount = transactions.filter(t => t.type === 'income').length;
+            const expCount = transactions.filter(t => t.type === 'expense').length;
+            document.getElementById('metricIncomeCount').textContent = `${incCount} txn${incCount !== 1 ? 's' : ''}`;
+            document.getElementById('metricExpenseCount').textContent = `${expCount} txn${expCount !== 1 ? 's' : ''}`;
+
+            // Render Charts
+            const categorySums = {};
+            transactions.filter(t => t.type === 'expense').forEach(t => {
+                const cat = t.category || 'General';
+                categorySums[cat] = (categorySums[cat] || 0) + t.amount;
+            });
+            renderDonutChart(categorySums);
+            renderBarChart(income, expense);
+
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filterType = document.getElementById('filterType').value;
+            const filterCat = document.getElementById('filterCategory').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = transactions.filter(t => {
+                const matchesSearch = t.description.toLowerCase().includes(searchVal) || (t.category && t.category.toLowerCase().includes(searchVal));
+                const matchesType = filterType === 'all' || t.type === filterType;
+                const matchesCat = filterCat === 'all' || t.category === filterCat;
+                return matchesSearch && matchesType && matchesCat;
+            });
+
+            filtered.sort((a, b) => {
+                if (sortBy === 'date-desc') return new Date(b.date) - new Date(a.date);
+                if (sortBy === 'date-asc') return new Date(a.date) - new Date(b.date);
+                if (sortBy === 'amount-desc') return b.amount - a.amount;
+                if (sortBy === 'amount-asc') return a.amount - b.amount;
+                return 0;
+            });
+
+            const txListEl = document.getElementById('txList');
+            if (filtered.length === 0) {
+                txListEl.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧾</div>
+                        <p style="font-weight: 700; color: var(--text-primary);">No transactions found</p>
+                        <p style="font-size: 0.8rem;">Add a new entry or adjust your filter parameters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            txListEl.innerHTML = filtered.map(t => {
+                const isIncome = t.type === 'income';
+                const icon = categoryIcons[t.category] || '📌';
+
+                return `
+                    <div class="tx-item ${isIncome ? 'income' : 'expense'}">
+                        <div class="tx-info">
+                            <div class="tx-category-icon">${icon}</div>
+                            <div class="tx-details">
+                                <span class="tx-desc">${escapeHTML(t.description)}</span>
+                                <div class="tx-meta">
+                                    <span class="category-badge">${escapeHTML(t.category || 'General')}</span>
+                                    <span>•</span>
+                                    <span>${t.date}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center;">
+                            <span class="tx-amount ${isIncome ? 'income' : 'expense'}">
+                                ${isIncome ? '+' : '-'}${formatCurrency(t.amount)}
+                            </span>
+                            <div class="tx-actions">
+                                <button onclick="editTransaction('${t.id}')" class="btn btn-secondary btn-sm" title="Edit">✏️</button>
+                                <button onclick="deleteTransaction('${t.id}')" class="btn btn-outline-danger btn-sm" title="Delete">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            document.getElementById('themeToggleBtn').textContent = target === 'dark' ? '🌙' : '☀️';
+            renderApp();
+        }
+
+        function toggleExportMenu() {
+            const menu = document.getElementById('exportMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                document.getElementById('exportMenu').style.display = 'none';
+            }
+        });
+
+        function exportCSV() {
+            if (transactions.length === 0) return showToast('No records to export.', 'danger');
+            let csv = 'ID,Description,Amount,Type,Category,Date\n';
+            transactions.forEach(t => {
+                csv += `"${t.id}","${t.description.replace(/"/g, '""')}",${t.amount},"${t.type}","${t.category || 'General'}","${t.date}"\n`;
+            });
+            downloadFile(csv, `ApexVault_${new Date().toISOString().slice(0, 10)}.csv`, 'text/csv');
+            showToast('CSV file downloaded', 'success');
+        }
+
+        function exportJSON() {
+            if (transactions.length === 0) return showToast('No records to export.', 'danger');
+            const json = JSON.stringify(transactions, null, 2);
+            downloadFile(json, `ApexVault_Backup_${new Date().toISOString().slice(0, 10)}.json`, 'application/json');
+            showToast('JSON backup downloaded', 'success');
+        }
+
+        function downloadFile(content, fileName, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.add('active');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function switchAuthTab(tab) {
+            document.getElementById('tabLoginBtn').className = `tab-btn ${tab === 'login' ? 'active' : ''}`;
+            document.getElementById('tabRegisterBtn').className = `tab-btn ${tab === 'register' ? 'active' : ''}`;
+            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+        }
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = msg;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function formatCurrency(amount) {
+            return `₱${amount.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
+
+        window.addEventListener('resize', () => renderApp());
+        window.addEventListener('DOMContentLoaded', () => initAppSession());
+    </script>
+</body>
+</html>
